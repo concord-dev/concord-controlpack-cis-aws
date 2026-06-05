@@ -1,0 +1,20 @@
+apiVersion: concord.dev/v1
+kind: ControlPack
+metadata:
+  id: cis-aws
+  name: cis-aws
+  version: v0.1.0
+  framework_label: CIS AWS Foundations
+spec:
+  controls:
+    - CIS-AWS-1.10
+    - CIS-AWS-1.16
+    - CIS-AWS-1.4
+    - CIS-AWS-1.5
+    - CIS-AWS-2.1.1
+    - CIS-AWS-2.1.5
+    - CIS-AWS-3.1
+    - CIS-AWS-4.1
+  evidence_sources:
+    - source: aws
+      version: ">=v0.1.0,<v1.0.0"
