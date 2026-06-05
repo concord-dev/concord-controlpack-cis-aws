@@ -1,0 +1,8 @@
+{
+  "aws_vpcs": {
+    "fetched_at": "2026-01-15T10:00:00Z",
+    "vpcs": [
+      {"id": "vpc-prod-123", "flow_logs": {"enabled": false}}
+    ]
+  }
+}

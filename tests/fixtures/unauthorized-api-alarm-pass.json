@@ -1,0 +1,13 @@
+{
+  "aws_cloudwatch": {
+    "fetched_at": "2026-01-15T10:00:00Z",
+    "metric_filters": [
+      {"name": "unauthorized-api-calls",
+       "filter_pattern": "{ ($.errorCode = \"*UnauthorizedOperation\") || ($.errorCode = \"AccessDenied*\") }",
+       "alarms": [
+         {"name": "unauthorized-api-alarm",
+          "subscribed_topics": ["arn:aws:sns:us-east-1:123456789012:secops"]}
+       ]}
+    ]
+  }
+}

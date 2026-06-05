@@ -3,8 +3,12 @@ kind: ControlPack
 metadata:
   id: cis-aws
   name: cis-aws
-  version: v0.1.0
+  version: v0.2.0
   framework_label: CIS AWS Foundations
+  attribution:
+    sources:
+      - prowler
+      - steampipe-powerpipe
 spec:
   controls:
     - CIS-AWS-1.10
@@ -15,6 +19,8 @@ spec:
     - CIS-AWS-2.1.5
     - CIS-AWS-3.1
     - CIS-AWS-4.1
+    - CIS-AWS-5.2
+    - CIS-AWS-6.1
   evidence_sources:
     - source: aws
       version: ">=v0.1.0,<v1.0.0"

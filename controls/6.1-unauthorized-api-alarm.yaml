@@ -1,0 +1,57 @@
+apiVersion: concord.dev/v1
+kind: Control
+
+metadata:
+  id: CIS-AWS-6.1
+  name: unauthorized-api-call-alarm
+  title: CloudWatch alarm fires on unauthorized API calls
+  framework: cis-aws
+  category: Monitoring
+  severity: high
+  tags:
+    - aws
+    - cloudwatch
+    - monitoring
+  owners:
+    - team: secops
+
+spec:
+  description: |
+    CIS AWS Foundations Benchmark 6.1 requires a CloudWatch metric filter +
+    alarm that fires on unauthorised API calls (errorCode containing
+    "*UnauthorizedOperation" or "AccessDenied"). The alarm must publish
+    to an SNS topic with at least one subscriber so it actually pages.
+
+  rationale: |
+    Unauthorised API calls are the highest-confidence signal of credential
+    compromise or lateral movement attempts. CIS 6.1 is the canonical
+    "credential abuse" control auditors look for during AWS reviews.
+
+  evidence:
+    - id: aws_cloudwatch
+      source: aws
+      type: metric_filter_alarms
+      fixture: ../tests/fixtures/unauthorized-api-alarm-pass.json
+      params:
+        region: ${env.AWS_REGION}
+
+  policy:
+    engine: rego
+    package: concord.cis_aws.unauthorized_api_alarm
+    file: ../policies/unauthorized_api_alarm.rego
+
+  remediation:
+    runbook: docs/remediation/cis-aws-6.1.md
+    auto_fix: false
+    estimated_effort: 1h
+
+  mappings:
+    cis_aws_v2:
+      - "6.1"
+    nist_csf:
+      - "DE.CM-7"
+    iso27001:
+      - "A.8.16"
+
+  status: stable
+  blocking: true

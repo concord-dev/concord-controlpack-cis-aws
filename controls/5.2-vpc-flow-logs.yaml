@@ -1,0 +1,58 @@
+apiVersion: concord.dev/v1
+kind: Control
+
+metadata:
+  id: CIS-AWS-5.2
+  name: vpc-flow-logs-enabled
+  title: All VPCs have flow logs enabled
+  framework: cis-aws
+  category: Networking
+  severity: high
+  tags:
+    - aws
+    - vpc
+    - networking
+  owners:
+    - team: platform
+
+spec:
+  description: |
+    CIS AWS Foundations Benchmark 5.2 requires VPC flow logs to be enabled
+    for every VPC. Flow logs capture the metadata of every IP packet
+    crossing the VPC's elastic network interfaces — essential for incident
+    investigation and lateral-movement detection.
+
+  rationale: |
+    Without flow logs, a post-incident "who talked to whom" question
+    becomes unanswerable. Enabling flow logs is operationally cheap
+    (cost scales with traffic, retention configurable) and is the single
+    most-cited CIS section 5 control during AWS pentests.
+
+  evidence:
+    - id: aws_vpcs
+      source: aws
+      type: vpc_flow_logs
+      fixture: ../tests/fixtures/vpc-flow-logs-pass.json
+      params:
+        region: ${env.AWS_REGION}
+
+  policy:
+    engine: rego
+    package: concord.cis_aws.vpc_flow_logs
+    file: ../policies/vpc_flow_logs.rego
+
+  remediation:
+    runbook: docs/remediation/cis-aws-5.2.md
+    auto_fix: false
+    estimated_effort: 30m
+
+  mappings:
+    cis_aws_v2:
+      - "5.2"
+    nist_csf:
+      - "DE.AE-3"
+    iso27001:
+      - "A.8.15"
+
+  status: stable
+  blocking: true
