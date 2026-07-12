@@ -11,9 +11,9 @@ deny contains msg if {
 }
 
 deny contains msg if {
-    count := input.iam_summary.summary.AccountAccessKeysPresent
-    count > 0
-    msg := sprintf("root account has %d active access key(s); rotate to IAM user keys and delete the root keys immediately", [count])
+    key_count := input.iam_summary.summary.AccountAccessKeysPresent
+    key_count > 0
+    msg := sprintf("root account has %d active access key(s); rotate to IAM user keys and delete the root keys immediately", [key_count])
 }
 
 warn contains msg if {
